@@ -2,11 +2,13 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,6 +27,10 @@ export default function Navbar() {
     }
   }, [mobileMenuOpen]);
 
+  if (pathname?.startsWith('/demo')) {
+    return null;
+  }
+
   const navLinks = [
     { name: "Services", href: "#services" },
     { name: "Portfolio", href: "#portfolio" },
@@ -39,18 +45,15 @@ export default function Navbar() {
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-6 py-4 flex items-center justify-between ${
-          scrolled ? "bg-black/80 backdrop-blur-md border-b border-white/5" : "bg-transparent"
+          scrolled ? "bg-white/5 backdrop-blur-2xl border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)]" : "bg-transparent"
         }`}
       >
         <Link href="/" className="flex items-center gap-2 group z-50 relative">
-          <img src="/logo.png" alt="Arisetek Logo" className="h-6 md:h-8 w-auto group-hover:scale-110 transition-transform duration-500" />
-          <span className="text-lg md:text-2xl font-black tracking-tighter text-white">
-            Arisetek <span className="font-light text-white/50 tracking-widest text-[10px] md:text-sm uppercase ml-1 hidden sm:inline-block">IT Solutions</span>
-          </span>
+          <img src="/arisetek-logo.svg" alt="Arisetek Logo" className="h-10 md:h-14 w-auto group-hover:scale-105 transition-transform duration-500" />
         </Link>
         
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-10 text-xs font-mono uppercase tracking-[0.2em] text-white/60">
+        <nav className="hidden lg:flex items-center gap-10 text-xs font-mono uppercase tracking-[0.2em] text-white/90">
           {navLinks.map((link) => (
             <Link key={link.name} href={link.href} className="hover:text-[#00E5FF] transition-colors relative after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-0 after:h-[1px] after:bg-[#00E5FF] hover:after:w-full after:transition-all after:duration-300">
               {link.name}
@@ -88,7 +91,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: "-100%" }}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 z-40 bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center"
+            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-3xl flex flex-col items-center justify-center"
           >
             <nav className="flex flex-col items-center gap-8 text-lg font-mono uppercase tracking-[0.2em] text-white">
               {navLinks.map((link, i) => (

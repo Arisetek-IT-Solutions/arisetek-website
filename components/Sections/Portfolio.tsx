@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
+import Image from "next/image";
 
 const Project = ({ project, index }: { project: any, index: number }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -24,11 +25,21 @@ const Project = ({ project, index }: { project: any, index: number }) => {
           style={{ y }}
           className="absolute -inset-[100px] bg-black border border-white/5 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/10 via-black to-black flex items-center justify-center"
         >
-          {/* Conceptual Image Placeholder */}
-          <div className="text-white/20 font-mono tracking-widest text-xs md:text-sm uppercase flex flex-col items-center">
-            <span>[ Project Render ]</span>
-            <span className="mt-2 md:mt-4 opacity-50">{project.type}</span>
-          </div>
+          {project.image ? (
+            <div className="absolute inset-x-[100px] inset-y-[100px]">
+              <Image 
+                src={project.image}
+                alt={project.title}
+                fill
+                className="object-cover object-top opacity-70 group-hover:opacity-100 transition-opacity duration-700"
+              />
+            </div>
+          ) : (
+            <div className="text-white/80 font-mono tracking-widest text-xs md:text-sm uppercase flex flex-col items-center relative z-10">
+              <span>[ Project Render ]</span>
+              <span className="mt-2 md:mt-4 opacity-50">{project.type}</span>
+            </div>
+          )}
         </motion.div>
       </div>
 
@@ -43,23 +54,23 @@ const Project = ({ project, index }: { project: any, index: number }) => {
           <div className="flex items-center gap-4 mb-4 md:mb-6">
             <span className="text-[#00E5FF] font-mono text-xs tracking-widest uppercase">{String(index + 1).padStart(2, '0')}</span>
             <div className="h-[1px] bg-white/20 w-8 md:w-12" />
-            <span className="text-white/60 font-mono text-xs tracking-widest uppercase">{project.type}</span>
+            <span className="text-white/90 font-mono text-xs tracking-widest uppercase">{project.type}</span>
           </div>
 
           <h3 className="text-4xl md:text-7xl font-black text-white tracking-tighter mb-6 md:mb-8 leading-none">
             {project.title}
           </h3>
 
-          <p className="text-xl text-white/50 font-light leading-relaxed mb-12">
+          <p className="text-xl text-white/80 font-normal leading-relaxed mb-12">
             {project.description}
           </p>
 
           <div className="flex flex-col gap-8">
             <div>
-              <p className="text-xs text-white/30 uppercase tracking-widest mb-4">Tech Stack</p>
+              <p className="text-xs text-white/90 uppercase tracking-widest mb-4">Tech Stack</p>
               <div className="flex flex-wrap gap-2">
                 {project.stack.map((tech: string) => (
-                  <span key={tech} className="text-sm text-white/80 border border-white/10 rounded-full px-4 py-2 bg-white/5">{tech}</span>
+                  <span key={tech} className="text-sm text-white/80 border border-white/10 rounded-full px-4 py-2 bg-white/5 backdrop-blur-md">{tech}</span>
                 ))}
               </div>
             </div>
@@ -85,7 +96,8 @@ export default function Portfolio() {
       type: "Healthcare Portal",
       description: "A secure, HIPAA-compliant patient portal featuring AI-driven symptom checking and automated appointment scheduling.",
       stack: ["Next.js", "TypeScript", "Tailwind", "Supabase", "OpenAI"],
-      link: "#",
+      link: "/demo/medsync",
+      image: "/medsync-demo.jpg"
     },
     {
       id: 2,
@@ -93,7 +105,8 @@ export default function Portfolio() {
       type: "E-Commerce Engine",
       description: "High-performance headless e-commerce site with an intelligent recommendation engine and dynamic pricing.",
       stack: ["React", "Shopify Plus", "Framer Motion", "Stripe"],
-      link: "#",
+      link: "/demo/aura-commerce",
+      image: "/auracommerce-demo.jpg"
     }
   ];
 
@@ -106,7 +119,7 @@ export default function Portfolio() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <p className="text-white/40 font-mono text-sm tracking-widest uppercase mb-6">Selected Works</p>
+            <p className="text-white font-mono text-sm tracking-widest uppercase mb-6">Selected Works</p>
             <h2 className="text-6xl md:text-8xl font-black text-white tracking-tighter leading-none">
               Featured <br/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/20">Digital Products.</span>
@@ -116,7 +129,7 @@ export default function Portfolio() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-white/50 max-w-sm text-lg font-light"
+            className="text-white/80 max-w-sm text-lg font-normal"
           >
             We engineer high-performance platforms that solve complex business logic while maintaining award-winning aesthetics.
           </motion.p>
